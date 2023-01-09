@@ -1,0 +1,671 @@
+{
+	"info": {
+		"_postman_id": "9c5e2b1a-9cff-4186-8c7e-2d51f8eeafc2",
+		"name": "api.chucknorris.io_Viktoria_Shidlovskaya",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24659368"
+	},
+	"item": [
+		{
+			"name": "Retrieve a random chuck joke",
+			"item": [
+				{
+					"name": "Random joke (check all elements in it)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Random joke_checking objects\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.categories).to.not.be.undefined;\r",
+									"\r",
+									"    pm.expect(jsonData.created_at).to.match(/\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}.\\d{5,6}/);\r",
+									"\r",
+									"    pm.expect(jsonData.icon_url).to.eql(\"https://assets.chucknorris.host/img/avatar/chuck-norris.png\");\r",
+									"\r",
+									"    pm.expect(jsonData.id).to.have.lengthOf(22);\r",
+									"\r",
+									"    pm.expect(jsonData.updated_at).to.match(/\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}.\\d{5,6}/);\r",
+									"\r",
+									"    pm.expect(jsonData.url).to.include(\"https://api.chucknorris.io/jokes/\");\r",
+									"\r",
+									"    pm.expect(jsonData.value).to.be.a(\"string\"); \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/random",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"random"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Retrieve a random joke from a given category",
+			"item": [
+				{
+					"name": "Random joke from one category (ex. \"sport\")",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Random joke_from specific category\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.categories).to.include(\"dev\");\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/random?category=dev",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"random"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "dev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Random joke from more then one category (ex. \"sport\", \"food\")",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Random joke from more than one category\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.categories[0]).to.be.oneOf([\"animal\", \"career\"]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/random?category=animal,career",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"random"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "animal,career"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Retrieve a list of available categories",
+			"item": [
+				{
+					"name": "List of categories is not empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"List of categories is not empty\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).not.to.be.empty;\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/categories",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of categories includes specific category (ex. \"food\")",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"List of categories includes specific category\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.include(\"food\");\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/categories",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of categories consists of 16 categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Number of categories is 16 \", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.lengthOf(16);\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/categories",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of categories includes following categories: \"animal\", \"career\", \"celebrity\", \"dev\", \"explicit\", \"fashion\", \"food\", \"history\", \"money\", \"movie\", \"music\", \"political\", \"religion\", \"science\", \"sport\", \"travel\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"List of categories consists of 16 specific categories\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.members([\"animal\",\r",
+									"    \"career\",\r",
+									"    \"celebrity\",\r",
+									"    \"dev\",\r",
+									"    \"explicit\",\r",
+									"    \"fashion\",\r",
+									"    \"food\",\r",
+									"    \"history\",\r",
+									"    \"money\",\r",
+									"    \"movie\",\r",
+									"    \"music\",\r",
+									"    \"political\",\r",
+									"    \"religion\",\r",
+									"    \"science\",\r",
+									"    \"sport\",\r",
+									"    \"travel\"])\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/categories",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Free text search (query is between 3 and 120 symbols)",
+			"item": [
+				{
+					"name": "All founded jokes include specific word (ex. \"summer\")",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"All founded jokes include specific word\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.expect(jsonData.result[0,2,3,4,5,6,8].value).to.include(\"summer\");\r",
+									"pm.expect(jsonData.result[1,7].value).to.include(\"Summer\");\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/search?query=summer",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "summer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Searching by part of a word (more than 3 symbols) (ex. \"orrow\" - result: jokes with \"borrowing\", \"tomorrow\",etc))",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Searching by part of a word\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.expect(jsonData.result[0].value).to.deep.include(\"orrow\");\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/search?query=orrow",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "orrow"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Searching by phrase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Searching by phrase\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.expect(jsonData.result[0,1].value).to.deep.include(\"a busy signal\");\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/search?query=a busy signal",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "a busy signal"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Searching by whole text of joke (less than 120 symbols)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Searching by whole text of joke\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.expect(jsonData.result[0].value).to.deep.include(\"Chuck Norris has many private vacation homes. Some examples are: Area 51, The Bermuda Triangle, and Fort Nox\");\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.chucknorris.io/jokes/search?query=Chuck Norris has many private vacation homes. Some examples are: Area 51, The Bermuda Triangle, and Fort Nox",
+							"protocol": "https",
+							"host": [
+								"api",
+								"chucknorris",
+								"io"
+							],
+							"path": [
+								"jokes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "Chuck Norris has many private vacation homes. Some examples are: Area 51, The Bermuda Triangle, and Fort Nox"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
