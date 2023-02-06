@@ -504,7 +504,7 @@
 									"pm.test(\"Searching by part of a word\", function () {\r",
 									"    let jsonData = pm.response.json();\r",
 									"\r",
-									"pm.expect(jsonData.result[0].value).to.deep.include(\"orrow\");\r",
+									"pm.expect(jsonData.result[0,1,2,3,4,5,6,7,8,9,10].value).to.deep.include(\"orrow\");\r",
 									"\r",
 									"});"
 								],
